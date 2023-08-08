@@ -7,6 +7,7 @@ class lv1 extends Phaser.Scene {
         this.heart1;
         this.heart2;
         this.heart3;
+        this.bucket = 0;
     }
 
     init(data) {
@@ -19,8 +20,6 @@ class lv1 extends Phaser.Scene {
 
         // Preload all the assets here
 
-        // this.load.tilemapTiledJSON("lv2","assets/lv2.tmj")
-        // this.load.tilemapTiledJSON("lv3","assets/lv3.tmj")
         this.load.tilemapTiledJSON("lv1", "assets/lv1.tmj")
 
         // Preload any images here
@@ -38,14 +37,26 @@ class lv1 extends Phaser.Scene {
         this.load.image("bucket", "assets/bucket.png");
         this.load.image('heart', 'assets/heart.png');
 
-
-
-        // Preload any sound and music here
-        // this.load.audio('ping', 'assets/ping.mp3');
-        // this.load.audio('bgMusic', 'assets/bgMusic.mp3');
+        this.load.audio('touch','assets/touchenemy.mp3');
+        this.load.audio('collect','assets/collectbucket.mp3');
+        this.load.audio('enter','assets/enter.mp3');
+        this.load.audio("bgm", "assets/bgm.mp3")
     }
 
     create() {
+
+           this.events.on('create', this.handleSceneCreation, this);
+      }
+      
+      handleSceneCreation() {
+       
+          this.sound.stopByKey('bgm');
+
+        this.collectSound = this.sound.add('collect').setVolume(0.5)
+        this.touchSound = this.sound.add('touch').setVolume(2)
+        this.enterSound = this.sound.add('enter').setVolume(1)
+        this.music = this.sound.add("bgm", {loop: true}).setVolume(0.5);
+        this.music.play();
 
         this.time.addEvent({
             delay: 100,
@@ -244,11 +255,6 @@ class lv1 extends Phaser.Scene {
             repeat: -1
         });
 
-
-
-
-
-
         let start = map.findObject("object", obj => obj.name === "start");
         let skeleton1 = map.findObject("object", obj => obj.name === "skeleton1");
         let skeleton2 = map.findObject("object", obj => obj.name === "skeleton2");
@@ -288,9 +294,6 @@ class lv1 extends Phaser.Scene {
             repeat: -1
         })
 
-
-
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.ground2.setCollisionByExclusion(-1, true)
@@ -300,11 +303,13 @@ class lv1 extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
         this.physics.world.bounds.width = this.ground.width; this.physics.world.bounds.height = this.ground.height; this.player.setCollideWorldBounds(true);
 
-
-
         window.player = this.player
 
         this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.5)
+        this.enemy1.body.setSize(this.enemy1.width * 0.5, this.enemy1.height * 0.5)
+        this.enemy2.body.setSize(this.enemy2.width * 0.5, this.enemy2.height * 0.5)
+        this.enemy3.body.setSize(this.enemy3.width * 0.5, this.enemy3.height * 0.5)
+        this.bucket1.body.setSize(this.bucket1.width * 0.5, this.bucket1.height * 0.5)
 
         this.physics.add.overlap(
             this.player,
@@ -321,10 +326,6 @@ class lv1 extends Phaser.Scene {
             null,
             this
         );
-
-        this.bucketNum = this.add.text(230, 50, window.bucket, {fontSize: "20px", fill: '#f5f607'}).setScrollFactor(0);
-        this.heartNum = this.add.text(230, 15, window.heart, {fontSize: "20px", fill: '#f5f607'}).setScrollFactor(0);
-
 
         this.physics.add.overlap(
             this.player,
@@ -348,11 +349,9 @@ class lv1 extends Phaser.Scene {
 
     update() {
 
-        this.bucketNum.setText(window.bucket);
-        this.heartNum.setText(window.heart);
-
         if (this.player.x > 1164 && this.player.x < 1196 &&
             this.player.y < 242 && this.player.y > 190) {
+            this.enterSound.play();
             console.log("Door1")
             this.lv2()
         }
@@ -381,22 +380,21 @@ class lv1 extends Phaser.Scene {
             this.scene.start("gameOver");
         }
 
-        ///////////////////
-
     } // end of update // 
 
-
-
-
     collectBucket(player, bucket1) {
+
+        this.collectSound.play();
+        
         console.log("collectBucket");
         bucket1.disableBody(true, true);
         window.bucket++;
         updateInventory.call(this)
 
+        if (window.buckets == 1){
+            this.scene.start("lv2");
+        }
     }
-
-
 
     lv2(player, tile) {
         console.log("lv2 function");
@@ -405,7 +403,5 @@ class lv1 extends Phaser.Scene {
             health: this.health
         })
     }
-
-
 }
 

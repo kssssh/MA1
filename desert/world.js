@@ -18,11 +18,13 @@ class world extends Phaser.Scene {
 
     // this is the exported JSON map file
     this.load.tilemapTiledJSON("world", "assets/cityMap.json");
+    this.load.audio('touch','assets/touchenemy.mp3');
+    this.load.audio('collect','assets/collectbucket.mp3');
 
     // Add any text to the game
     this.add.text(10, 10, "Add any text here", {
       font: "30px Courier",
-      fill: "#00FFFF",
+      // fill: "#00FFFF",
     });
 
     window.player = this.player
@@ -32,7 +34,8 @@ class world extends Phaser.Scene {
 
   create() {
     this.physics.add.overlap(this.player, [this.enemy1, this.enemy2, this.enemy3], this.enemyCaught, null, this);
-
+    this.collectSound = this.sound.add('collect').setVolume(0.5);
+    this.touchSound = this.sound.add('touch').setVolume(2);
 
     var spaceDown = this.input.keyboard.addKey('SPACE');
     var key1 = this.input.keyboard.addKey(49);
@@ -45,7 +48,7 @@ class world extends Phaser.Scene {
 
   enemyCaught(player, enemy) {
     console.log("*** local function enemyCaught: attack by enemy");
-    this.hitSnd.play();
+    this.touchSound.play();
     window.heart--;
     enemy.disableBody(true, true);
     this.enemyCollisions++;

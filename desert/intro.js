@@ -6,17 +6,22 @@ class intro extends Phaser.Scene {
     preload() {
       
       this.load.image("intro01", "assets/intro-01.png")
+      this.load.audio("bgm", "assets/bgm.mp3")
 
+      
       
     }
   
     create() {
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'intro01');
 
-        // Check for spacebar or any key here
+      this.music = this.sound.add("bgm", {loop: true}).setVolume(0.5);
+      this.music.play();
+
+        
         var spaceDown = this.input.keyboard.addKey('SPACE');
 
-        // On spacebar event, call the world scene        
+              
         spaceDown.on('down', function () {
             console.log('story');
             this.scene.start('story');

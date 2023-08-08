@@ -4,12 +4,13 @@ class lv3 extends Phaser.Scene {
         super({ key: 'lv3' });
         
         // Put global variable here
-        this.bucket=10
+        this.bucket=0
         this.health=3
         this.heart1;
         this.heart2;
         this.heart3;
     }
+    
 
 
     init(data) {
@@ -19,7 +20,8 @@ class lv3 extends Phaser.Scene {
 
     preload() {
         this.load.tilemapTiledJSON("lv3","assets/lv3.tmj")
-       
+        this.load.audio('touch','assets/touchenemy.mp3');
+        this.load.audio('collect','assets/collectbucket.mp3');
      
 
         // Preload any images here
@@ -42,6 +44,11 @@ class lv3 extends Phaser.Scene {
 
     create() {
 
+        this.collectSound = this.sound.add('collect').setVolume(0.5)
+        this.touchSound = this.sound.add('touch').setVolume(2)
+
+
+        
         this.time.addEvent({
             delay: 100,
             callback: updateInventory,
@@ -76,7 +83,6 @@ class lv3 extends Phaser.Scene {
         this.bucket2 = this.physics.add.sprite(608,498,'bucket').setScale(1);
         
 
-        //////
         this.anims.create({
             key:'nick-up',
             frames:this.anims.generateFrameNumbers('nick',
@@ -110,7 +116,6 @@ class lv3 extends Phaser.Scene {
         });
 
 
-        /////////////
         this.anims.create({
             key:'skeleton1-up',
             frames:this.anims.generateFrameNumbers('skeleton1',
@@ -242,9 +247,6 @@ class lv3 extends Phaser.Scene {
             repeat:-1
         });
 
-
-        
-    
         let start = map.findObject("ObjectLayer", obj => obj.name === "start");
         let skeleton1 = map.findObject("ObjectLayer", obj => obj.name === "skeleton1");
         let skeleton2 = map.findObject("ObjectLayer", obj => obj.name === "skeleton2");
@@ -305,6 +307,12 @@ class lv3 extends Phaser.Scene {
         window.player = this.player
 
         this.player.body.setSize(this.player.width * 0.5,this.player.height * 0.5)
+        this.enemy1.body.setSize(this.enemy1.width * 0.5, this.enemy1.height * 0.5)
+        this.enemy2.body.setSize(this.enemy2.width * 0.5, this.enemy2.height * 0.5)
+        this.enemy3.body.setSize(this.enemy3.width * 0.5, this.enemy3.height * 0.5)
+        this.enemy4.body.setSize(this.enemy4.width * 0.5, this.enemy4.height * 0.5)
+        this.bucket1.body.setSize(this.bucket1.width * 0.5, this.bucket1.height * 0.5)
+        this.bucket2.body.setSize(this.bucket2.width * 0.5, this.bucket2.height * 0.5)
 
         this.physics.add.overlap(
             this.player,
@@ -322,8 +330,6 @@ class lv3 extends Phaser.Scene {
             this
         );
 
-      
-
         console.log("showInventory");
 
         this.scene.launch("showInventory");
@@ -332,11 +338,10 @@ class lv3 extends Phaser.Scene {
     }
 
     update() {
-        if(this.player.x>1184 && this.player.x < 1216 &&
-            this.player.y< 256 && this.player.y>192) {
-             console.log("win")
-             this.win()
-            }
+        if (this.player.x > 1184 && this.player.x < 1216 && this.player.y < 256 && this.player.y > 192) {
+            console.log("win");
+            this.scene.start('win');
+        }
        
         if (this.cursors.left.isDown){
             this.player.setVelocityX(-200);
@@ -363,6 +368,8 @@ class lv3 extends Phaser.Scene {
     } // end of update // 
     
     collectBucket(player, bucket1) {
+
+        this.collectSound.play();
         console.log("collectBucket");
         bucket1.disableBody(true, true);
         window.bucket++;
@@ -379,7 +386,7 @@ class lv3 extends Phaser.Scene {
     }
     
     win(player,tile){
-        console.log("win function");
+        console.log("win");
         this.scene.start("win",{ 
             bucket: this.bucket,
             health: this.health})

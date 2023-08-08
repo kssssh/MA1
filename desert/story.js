@@ -15,7 +15,7 @@ class story extends Phaser.Scene {
 
         var spaceDown = this.input.keyboard.addKey('SPACE');
 
-        // On spacebar event, call the world scene        
+            
         spaceDown.on('down', function () {
             console.log('task');
             this.scene.start('task');

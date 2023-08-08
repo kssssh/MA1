@@ -12,6 +12,7 @@ function updateInventory() {
 }
 
   function hitEnemy(player,enemy) {
+    this.touchSound.play();
     console.log("*** enemy overlap nick");
    
     // Shake screen

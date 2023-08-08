@@ -15,6 +15,7 @@ class showInventory extends Phaser.Scene {
         this.load.image('heart', 'assets/heart.png');
 
         this.load.image('bucket', 'assets/bucket.png');
+        this.load.audio('touch','assets/touchenemy.mp3');
     }
 
    create () {
@@ -22,6 +23,7 @@ class showInventory extends Phaser.Scene {
 //         //Place hearts at the top screen
         console.log("***showInventory");
         this.scene.bringToTop("showInventory");
+        
 //        // Setup heart but visible to false
 
        this.heart1 = this.add.image (30,20,'heart').setScrollFactor(0).setVisible(false).setScale(0.5);
@@ -34,25 +36,14 @@ class showInventory extends Phaser.Scene {
         this.bucket4 = this.add.image (150,60,'bucket').setScrollFactor(0).setVisible(true).setScale(1);
         this.bucket5 = this.add.image (190,60,'bucket').setScrollFactor(0).setVisible(true).setScale(1);
 
-
-        
-
        // Recv an event, call the method
        this.events.on('inventory', this.updateScreen, this)
-
-       this.bucketNum = this.add.text(230, 50, window.bucket, {fontSize: "20px", fill: '#f5f607'}).setScrollFactor(0);
-       this.heartNum = this.add.text(230, 15, window.heart, {fontSize: "20px", fill: '#f5f607'}).setScrollFactor(0);
-
-      
 
     } //end of create
 
 
     updateScreen(data){
         console.log('Received event inventory', data);
-
-        this.bucketNum.setText(window.bucket);
-        this.heartNum.setText(window.heart);
 
         switch ( data.heart ) {
             case 3:
@@ -137,8 +128,5 @@ class showInventory extends Phaser.Scene {
             break;
         }
     }
-
-
-
 
 } // end of class

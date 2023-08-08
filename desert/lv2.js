@@ -11,7 +11,6 @@ class lv2 extends Phaser.Scene {
         this.heart3;
     }
 
-
     init(data) {
         this.bucket = data.bucket;
        
@@ -19,16 +18,6 @@ class lv2 extends Phaser.Scene {
 
     preload() {
         this.load.tilemapTiledJSON("lv2","assets/lv2.tmj")
-       
-     
-
-        // Preload any images here
-
-        // this.load.spritesheet('nick', 'assets/nick.png',{ frameWidth:64, frameHeight:64 });
-        // this.load.spritesheet('skeleton1', 'assets/skeleton1.png',{ frameWidth:64, frameHeight:64 });
-        // this.load.spritesheet('skeleton2', 'assets/skeleton2.png',{ frameWidth:64, frameHeight:64 });
-        // this.load.spritesheet('skeleton3', 'assets/skeleton3.png',{ frameWidth:64, frameHeight:64 });
-        // this.load.spritesheet('skeleton4', 'assets/skeleton4.png',{ frameWidth:64, frameHeight:64 });
 
         this.load.image("desert1IMG", "assets/desert1.png")
         this.load.image("desert2IMG", "assets/desert2.png");
@@ -38,9 +27,17 @@ class lv2 extends Phaser.Scene {
         this.load.image("bucket", "assets/bucket.png");
         this.load.image('heart', 'assets/heart.png');
 
+        this.load.audio('touch','assets/touchenemy.mp3');
+        this.load.audio('collect','assets/collectbucket.mp3');
+        this.load.audio('enter','assets/enter.mp3');
+
     }
 
     create() {
+
+        this.collectSound = this.sound.add('collect').setVolume(0.5)
+        this.touchSound = this.sound.add('touch').setVolume(2)
+        this.enterSound = this.sound.add('enter').setVolume(1)
 
         this.time.addEvent({
             delay: 100,
@@ -73,10 +70,6 @@ class lv2 extends Phaser.Scene {
         this.bucket1 = this.physics.add.sprite(880,210,'bucket').setScale(1);
         this.bucket2 = this.physics.add.sprite(1253,198,'bucket').setScale(1);
        
-
-
-        
-    
         let start = map.findObject("ObjectLayer", obj => obj.name === "start");
         let skeleton1 = map.findObject("ObjectLayer", obj => obj.name === "skeleton1");
         let skeleton2 = map.findObject("ObjectLayer", obj => obj.name === "skeleton2");
@@ -139,6 +132,12 @@ class lv2 extends Phaser.Scene {
         window.player = this.player
 
         this.player.body.setSize(this.player.width * 0.5,this.player.height * 0.5)
+        this.enemy1.body.setSize(this.enemy1.width * 0.5, this.enemy1.height * 0.5)
+        this.enemy2.body.setSize(this.enemy2.width * 0.5, this.enemy2.height * 0.5)
+        this.enemy3.body.setSize(this.enemy3.width * 0.5, this.enemy3.height * 0.5)
+        this.enemy4.body.setSize(this.enemy4.width * 0.5, this.enemy4.height * 0.5)
+        this.bucket1.body.setSize(this.bucket1.width * 0.5, this.bucket1.height * 0.5)
+        this.bucket2.body.setSize(this.bucket2.width * 0.5, this.bucket2.height * 0.5)
 
         this.physics.add.overlap(
             this.player,
@@ -156,7 +155,6 @@ class lv2 extends Phaser.Scene {
             this
         );
 
-       
 
         console.log("showInventory");
 
@@ -164,8 +162,9 @@ class lv2 extends Phaser.Scene {
     }
 
     update() {
-        if(this.player.x>1199 && this.player.x < 1301 &&
-            this.player.y< 535 && this.player.y>490) {
+        if(this.player.x>1100 && this.player.x < 1400 &&
+            this.player.y< 585 && this.player.y>520) {
+            this.enterSound.play();
              console.log("lv3")
              this.lv3()
             }
@@ -189,19 +188,17 @@ class lv2 extends Phaser.Scene {
             this.player.setVelocity(0);
             this.player.anims.stop()
         }
-
-        ///////////////////
        
     } // end of update // 
 
-    
-
     collectBucket(player, bucket1) {
+
+        this.collectSound.play();
+
         console.log("collectBucket");
         bucket1.disableBody(true, true);
         window.bucket++;
         updateInventory.call(this)
-
     }
 
     takeDamage (player,enemy1){
@@ -211,11 +208,7 @@ class lv2 extends Phaser.Scene {
 
         enemy1.disableBody(true,true);
     }
-    
-   
-    
-
-      
+     
     lv3(player,tile){
         console.log("lv3 function");
         this.scene.start("lv3",{ 
@@ -224,3 +217,6 @@ class lv2 extends Phaser.Scene {
     }  
 
 }
+
+
+
