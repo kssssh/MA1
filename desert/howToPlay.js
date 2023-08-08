@@ -12,12 +12,7 @@ class howToPlay extends Phaser.Scene {
     create() {
         this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'intro04');
         
-      //   this.events.on('create', this.handleSceneCreation, this);
-      // }
       
-      // handleSceneCreation() {
-       
-      //     this.sound.stopByKey('bgm');
      
         var spaceDown = this.input.keyboard.addKey('SPACE');
 

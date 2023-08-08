@@ -296,6 +296,22 @@ class lv3 extends Phaser.Scene {
             repeat: -1
         })
 
+        this.tweens.add({
+            targets: this.bucket1,
+            y: '-=4', 
+            duration: 500, 
+            yoyo: true, 
+            repeat: -1 
+        });
+
+        this.tweens.add({
+            targets: this.bucket2,
+            y: '-=4', 
+            duration: 500, 
+            yoyo: true, 
+            repeat: -1 
+        });
+
         this.cursors = this.input.keyboard.createCursorKeys(); 
 
         this.ground2.setCollisionByExclusion(-1, true) 

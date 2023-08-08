@@ -119,6 +119,22 @@ class lv2 extends Phaser.Scene {
             duration: 3000,
             repeat: -1
         })
+
+        this.tweens.add({
+            targets: this.bucket1,
+            y: '-=4', 
+            duration: 500, 
+            yoyo: true, 
+            repeat: -1 
+        });
+
+        this.tweens.add({
+            targets: this.bucket2,
+            y: '-=4', 
+            duration: 500, 
+            yoyo: true, 
+            repeat: -1 
+        });
         
 
         this.cursors = this.input.keyboard.createCursorKeys(); 

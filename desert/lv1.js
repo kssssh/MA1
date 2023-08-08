@@ -89,6 +89,8 @@ class lv1 extends Phaser.Scene {
 
         this.bucket1 = this.physics.add.sprite(700, 150, 'bucket').setScale(1);
 
+        
+
         //////
         this.anims.create({
             key: 'nick-up',
@@ -293,6 +295,14 @@ class lv1 extends Phaser.Scene {
             duration: 4000,
             repeat: -1
         })
+
+        this.tweens.add({
+            targets: this.bucket1,
+            y: '-=4', 
+            duration: 500, 
+            yoyo: true, 
+            repeat: -1 
+        });
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
