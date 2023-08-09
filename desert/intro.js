@@ -13,7 +13,7 @@ class intro extends Phaser.Scene {
     create() {
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'intro01');
 
-      this.music = this.sound.add("bgm", {loop: true}).setVolume(0.5);
+      this.music = this.sound.add("bgm", {loop: true}).setVolume(0.3);
       this.music.play();
 
         var spaceDown = this.input.keyboard.addKey('SPACE');

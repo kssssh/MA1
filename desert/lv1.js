@@ -55,7 +55,7 @@ class lv1 extends Phaser.Scene {
         this.collectSound = this.sound.add('collect').setVolume(0.5)
         this.touchSound = this.sound.add('touch').setVolume(2)
         this.enterSound = this.sound.add('enter').setVolume(1)
-        this.music = this.sound.add("bgm", {loop: true}).setVolume(0.5);
+        this.music = this.sound.add("bgm", {loop: true}).setVolume(0.3);
         this.music.play();
 
         this.time.addEvent({
