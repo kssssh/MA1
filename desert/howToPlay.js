@@ -12,11 +12,8 @@ class howToPlay extends Phaser.Scene {
     create() {
         this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'intro04');
         
-      
-     
         var spaceDown = this.input.keyboard.addKey('SPACE');
-
-             
+   
         spaceDown.on('down', function () {
             console.log('lv1');
             this.scene.start('lv1');

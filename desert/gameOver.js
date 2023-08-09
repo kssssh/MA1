@@ -23,7 +23,6 @@ class gameOver extends Phaser.Scene {
         
           this.sound.stopByKey('bgm');
         
-       
         function resetGame() {
           window.heart = 3;
           window.bucket = 0;

@@ -8,8 +8,6 @@ class intro extends Phaser.Scene {
       this.load.image("intro01", "assets/intro-01.png")
       this.load.audio("bgm", "assets/bgm.mp3")
 
-      
-      
     }
   
     create() {
@@ -18,17 +16,12 @@ class intro extends Phaser.Scene {
       this.music = this.sound.add("bgm", {loop: true}).setVolume(0.5);
       this.music.play();
 
-        
         var spaceDown = this.input.keyboard.addKey('SPACE');
-
-              
+   
         spaceDown.on('down', function () {
             console.log('story');
             this.scene.start('story');
         }, this);
-        
-    
-    
           }
         }
     

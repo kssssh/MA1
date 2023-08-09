@@ -11,6 +11,7 @@ class win extends Phaser.Scene {
     }
   
     create() {
+
         this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'intro06');
         
         this.winmusicSound = this.sound.add('winmusic').setVolume(2)
@@ -22,7 +23,6 @@ class win extends Phaser.Scene {
       handleSceneCreation() {
           this.sound.stopByKey('bgm');
       
-     
         function resetGame() {
           window.heart = 3;
           window.bucket = 0;

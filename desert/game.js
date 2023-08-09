@@ -17,7 +17,6 @@
     pixelArt: true,
     scene: [intro, story, task, howToPlay, lv1, lv2, lv3, win, gameOver, showInventory]
 
-    
 };
 
 var game = new Phaser.Game(config);
